@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @unique @default(uuid())
+  username  String
+  email     String     @unique
+  status    UserStatus @default(ACTIVE)
+  role      UserRole   @default(USER)
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  booking   Booking[]
+  flat      Flat[]
+
+  @@map("users")
+}
+
+model Flat {
+  id                  String    @id @unique @default(uuid())
+  userId              String
+  squareFeet          Int
+  totalBedrooms       Int
+  totalRooms          Int
+  detailedDescription String
+  amenities           String
+  location            String
+  rentAmount          Int
+  advancedAmount      Int
+  photos              String[]
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  booking             Booking[]
+  user                User      @relation(fields: [userId], references: [id])
+
+  @@map("flats")
+}
+
+model Booking {
+  id         String        @id @unique @default(uuid())
+  flatId     String
+  userId     String
+  name       String
+  profession String
+  email      String
+  status     BookingStatus @default(PENDING)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  flat Flat @relation(fields: [flatId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum UserStatus {
+  ACTIVE
+  DEACTIVATE
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
