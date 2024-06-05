@@ -28,6 +28,10 @@ router.put(
   flatController.updateFlat
 );
 // delete flat
-router.delete("/:id", auth(UserRole.ADMIN), flatController.deleteFlat);
+router.delete(
+  "/:id",
+  auth(UserRole.ADMIN, UserRole.USER),
+  flatController.deleteFlat
+);
 
 export const flatRoutes = router;

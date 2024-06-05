@@ -52,7 +52,7 @@ const getAllUser = catchAsync(async (req, res) => {
 
 // change user status
 const changeUserStatus = catchAsync(async (req, res) => {
-  console.log("request", req);
+  // console.log("request", req);
   const { userId } = req?.params;
   const { status } = req.body;
   const result = await userService.changeUserStatusIntoDB(userId, status);
@@ -79,6 +79,7 @@ const changeUserRole = catchAsync(async (req, res) => {
 // change password
 const changePassword = catchAsync(async (req, res) => {
   const userId = req?.user?.id;
+  // console.log(userId, req.body)
   const result = await userService.changePasswordIntoDB(userId, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,

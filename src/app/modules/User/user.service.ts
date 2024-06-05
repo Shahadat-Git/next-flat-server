@@ -108,8 +108,8 @@ const getUserProfileFromDB = async (userId: string) => {
 
 // change user status
 const changeUserStatusIntoDB = async (userId: string, status: UserStatus) => {
-  console.log("userId", userId);
-  console.log("status", status);
+  // console.log("userId", userId);
+  // console.log("status", status);
   const userInfo = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -160,13 +160,16 @@ const changePasswordIntoDB = async (
       id: userId,
     },
   });
+
   if (!userInfo) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
+
   const isPasswordMatched = await bcrypt.compare(
     payload?.currentPassword,
     userInfo?.password
   );
+
   if (!isPasswordMatched) {
     throw new AppError(httpStatus.FORBIDDEN, "Password does not matched");
   }

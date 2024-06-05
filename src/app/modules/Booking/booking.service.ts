@@ -54,7 +54,7 @@ const updateBookingFlatApplicationStatusIntoDB = async (
   if (!booking) {
     throw new AppError(httpStatus.NOT_FOUND, "Booking is not found");
   }
-  console.log(status);
+  // console.log(status);
   const result = await prisma.booking.update({
     where: {
       id: bookingId,
@@ -64,8 +64,19 @@ const updateBookingFlatApplicationStatusIntoDB = async (
 
   return result;
 };
+
+// get booking requests from db
+const getAllBookingRequestsFromDB = async () => {
+  const result = await prisma.booking.findMany({
+    include: {
+      flat: true,
+    },
+  });
+  return result;
+};
 export const bookingService = {
   createBookingIntoDB,
   getMyBookingRequestsFromDB,
   updateBookingFlatApplicationStatusIntoDB,
+  getAllBookingRequestsFromDB
 };

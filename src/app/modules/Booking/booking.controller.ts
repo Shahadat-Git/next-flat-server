@@ -42,8 +42,20 @@ const updateBookingFlatApplicationStatus = catchAsync(async (req, res) => {
   });
 });
 
+// get booking request
+const getAllBookingRequests = catchAsync(async (req, res) => {
+  const result = await bookingService.getAllBookingRequestsFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Booking requests retrieved successfully",
+    data: result,
+  });
+});
+
 export const bookingController = {
   createBooking,
   getMyBookingRequests,
   updateBookingFlatApplicationStatus,
+  getAllBookingRequests
 };

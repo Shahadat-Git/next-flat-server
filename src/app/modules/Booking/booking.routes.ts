@@ -28,4 +28,11 @@ router.put(
   validateRequest(bookingValidation.updateBookingFlatApplicationStatusSchema),
   bookingController.updateBookingFlatApplicationStatus
 );
+
+// get all booking
+router.get(
+  "/all-booking-requests",
+  auth(UserRole.ADMIN),
+  bookingController.getAllBookingRequests
+);
 export const bookingRoutes = router;
