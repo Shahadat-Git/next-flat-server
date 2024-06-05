@@ -9,7 +9,12 @@ import httpStatus from "http-status";
 const app: Application = express();
 
 // middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 // parser
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
